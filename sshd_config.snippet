@@ -1,0 +1,10 @@
+# Append this to /opt/jumpbox/config/sshd/sshd_config
+# after the container has performed its first-run initialization.
+#
+# This scopes TCP forwarding (required for SOCKS5 proxy) to your
+# user only, rather than enabling it globally.
+#
+
+
+Match User yourusername
+    AllowTcpForwarding yes

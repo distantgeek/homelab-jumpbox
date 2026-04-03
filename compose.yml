@@ -1,0 +1,20 @@
+services:
+  jumpbox:
+    image: lscr.io/linuxserver/openssh-server:latest
+    container_name: jumpbox
+    environment:
+      - TZ=America/New_York          # change to your timezone
+      - PUBLIC_KEY_FILE=/config/authorized_keys
+      - SUDO_ACCESS=false            # no sudo inside the container
+      - PASSWORD_ACCESS=false        # keys only, no passwords
+      - USER_NAME=yourusername             # change to your username
+    volumes:
+      - /opt/jumpbox/config:/config:z  # remove :z if not using SELinux
+    ports:
+      - 2222:2222                    # change left side to your preferred internal port
+    restart: unless-stopped
+
+# Notes:
+# - PUID/PGID are intentionally omitted for rootful Podman compatibility.
+# - If :z SELinux label causes issues, replace with: security_opt: [label=disable]
+# - The authorized_keys file at /opt/jumpbox/config/authorized_keys is read on startup

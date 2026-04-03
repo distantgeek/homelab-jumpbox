@@ -1,0 +1,38 @@
+# ~/.ssh/config
+# Copy this file to ~/.ssh/config on each client machine
+# Replace all 192.168.x.x placeholders with your actual LAN IPs
+# Replace yourdomain.com with your domain or external IP once router is forwarded
+
+# ---------------------------------------------------------------
+# JUMP BOX
+# ---------------------------------------------------------------
+Host homelab-jump
+    HostName 192.168.x.x        # LAN IP for local testing
+                                # swap to yourdomain.com for external access
+    Port 2222
+    User yourusername
+    DynamicForward 9050         # SOCKS5 proxy on local port 9050
+
+# ---------------------------------------------------------------
+# INTERNAL SERVERS (hop through jumpbox automatically)
+# ---------------------------------------------------------------
+Host target-server
+    HostName 192.168.x.x
+    User yourusername
+    ProxyJump homelab-jump
+
+# Add additional hosts following the same pattern
+# Host myserver
+#     HostName 192.168.x.x
+#     User yourusername
+#     ProxyJump homelab-jump
+
+# ---------------------------------------------------------------
+# NOTES
+# ---------------------------------------------------------------
+# ForwardAgent is intentionally omitted.
+# ProxyJump handles multi-hop auth without needing agent forwarding,
+# which avoids agent hijacking risk on the jump container.
+#
+# SOCKS5 tunnel alias (add to ~/.bashrc or ~/.zshrc):
+#   alias homelab-proxy="ssh -N -q homelab-jump"
