@@ -107,10 +107,10 @@ ssh -p 2222 yourusername@yourdomain-or-ip
 ### Hop directly to an internal server
 
 ```bash
-ssh fedora-server   # uses ProxyJump automatically via ~/.ssh/config
+ssh target-server   # uses ProxyJump automatically via ~/.ssh/config
 ```
 
-### Start the SOCKS5 browser tunnel
+### Start the SOCKS5 browser tunnel in a separate browser window
 
 ```bash
 homelab-proxy   # runs in foreground, Ctrl+C to stop
